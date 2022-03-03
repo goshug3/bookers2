@@ -1,2 +1,74 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<%= render 'shared/header' %>
+
+<div class="header-space">
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      
+    <h3>User info</h3>
+      <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpg', fallback: "no_image.jpg", size:'100x100' %>
+        <table class="table">
+          <tr>
+　　        <th><h4>name</h4></th>
+　　        <th><%= @user.name %></th>
+　        </tr>
+　        <tr>
+　　        <th><h4>introduction</h4></th>
+　　        <th><%= @user.introduction %></th>
+　　      </tr>
+        </table>
+        <% if @user == current_user %>
+          <div class="row">
+            <%= link_to edit_user_path(@user), class: "col-xs-12 btn btn-default" do %>
+              <i class="fa fa-wrench"></i>
+            <% end %>
+          </div>
+          
+          <h3>New book</h3>
+          <%= form_for @book do |f| %>
+            <div class="book-form row">
+              <label for="book_title"><h4>Title</h4></label>
+              <%= f.text_field :title, :class => 'col-xs-12' %>
+            </div>
+            <div class="book-form row">
+              <label for="book_body"><h4>Opinion</h4></label>
+              <%= f.text_area :body, :class => 'col-xs-12' %>
+            </div>
+            <div class="row">
+              <%= f.submit 'Create Book', :class => 'col-xs-12 btn btn-primary' %>
+            </div>
+          <% end %>
+          
+        <% end %>
+    </div>
+        
+    <div class="col-xs-9">
+      <h3>Books</h3>
+      
+      <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+            <th></th>
+            <th><h4>Title</h4></th>
+            <th><h4>Opinion</h4></th>
+          </tr>
+        </thead>
+        <% @books.each do |book| %>
+        <tbody>
+          <tr>
+            <td><%= attachment_image_tag book.user, :profile_image, :fill, 40, 40, format: 'jpeg', fallback: "no_image.jpg", size:'40x40' %></td>
+            <td><%= link_to book.title, book_path(book.id) %></td>
+            <td><%= book.body %></td>
+          </tr>
+        </tbody>
+        <% end %>
+      </table>
+    </div>
+    
+  </div>
+</div>
+
+</div>
+
+<%= render 'shared/footer' %>
